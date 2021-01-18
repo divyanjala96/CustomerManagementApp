@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use domain\Facades\CategoryFacade;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
@@ -10,23 +11,20 @@ class CategoryController extends ParentController
 //* open category page
     public function index() {
 
-        $catData=Category::all();
+        $catData=CategoryFacade::getAllData();
         return view('category')->with('categories',$catData);
     }
 
 //* Category store part
     public function catStore(Request $request)
-    {
-        $category = new Category;
-        $category->cat_name=$request->cat_name;
-        $category->save();
-        $catData=Category::all();
-        return view('category')->with('categories',$catData);
+    {  
+        CategoryFacade::store($request); //calling to categoryfacade 
+       return redirect()->back();
     }
 //* Category delete part
     public function deleteCategory($id)
-    {
-        $delete=Category::find($id);
+    {   
+        $delete=CategoryFacade::getCategoryData($id);
         $delete->delete();
         return redirect()->back();
     }
@@ -34,19 +32,17 @@ class CategoryController extends ParentController
 //* Category update function
     public function updateCategory($id)
     {
-        $update=Category::find($id);
+        $update=CategoryFacade::getCategoryData($id);
         return view('categoryUpdate')->with('update_categories_data',$update);
     }
-    
+
 // update second function start
     public function update(Request $updatedata)
     {
         $id=$updatedata->id;
         $name=$updatedata->name;
-        $updatecatdata=Category::find($id);
-        $updatecatdata->cat_name=$name;
-        $updatecatdata->save();
-
+        $updatecatdata=CategoryFacade::getCategoryData($id);
+        CategoryFacade::store($updatedata);
         return redirect(route('category-all'));
 
     }
