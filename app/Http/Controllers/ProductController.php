@@ -49,7 +49,7 @@ public function updateProduct($id)
     return view('productUpdate')->with($response);
 
 }
-// update second function start
+// update 2dn function start
 public function update(Request $update)
 {
     $id=$update->id;
