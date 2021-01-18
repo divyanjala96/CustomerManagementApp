@@ -7,6 +7,7 @@ use App\Models\Category;
 
 class CategoryController extends ParentController
 {
+//* open category page
     public function index() {
 
         $catData=Category::all();
@@ -36,7 +37,8 @@ class CategoryController extends ParentController
         $update=Category::find($id);
         return view('categoryUpdate')->with('update_categories_data',$update);
     }
-
+    
+// update second function start
     public function update(Request $updatedata)
     {
         $id=$updatedata->id;
